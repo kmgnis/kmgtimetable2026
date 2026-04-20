@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>주차별 학급 시간표</title>
     <style>
         body {
@@ -10,10 +10,12 @@
             background-color: #f4f7f6;
             color: #333;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
+            margin: 0;
         }
         h1 {
             color: #2c3e50;
+            font-size: 24px;
         }
         .container {
             max-width: 800px;
@@ -35,11 +37,21 @@
             border-radius: 5px;
             border: 1px solid #ccc;
             cursor: pointer;
+            flex: 1; /* 모바일에서 버튼 너비 맞춤 */
+            max-width: 200px;
         }
+
+        /* 모바일에서 표를 좌우로 스크롤 할 수 있게 하는 영역 */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* 스마트폰에서 부드러운 스크롤 */
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            min-width: 450px; /* 스마트폰에서 표가 너무 찌그러지지 않게 최소 너비 설정 */
         }
         th, td {
             border: 1px solid #ddd;
@@ -50,15 +62,29 @@
             background-color: #3498db;
             color: white;
             font-weight: bold;
+            white-space: nowrap;
         }
         td {
             background-color: #fafafa;
-            font-size: 18px;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
         td:hover {
             background-color: #e8f4f8;
             font-weight: bold;
+        }
+
+        /* 스마트폰(화면 너비 600px 이하)을 위한 추가 디자인 */
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 15px; }
+            .controls {
+                flex-direction: column; /* 드롭다운 메뉴를 세로로 배치 */
+                gap: 10px;
+            }
+            select { max-width: 100%; }
+            th, td { padding: 10px 5px; font-size: 15px; }
+            h1 { font-size: 20px; margin-top: 0; }
         }
     </style>
 </head>
@@ -90,20 +116,22 @@
             </select>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>교시</th>
-                    <th>월</th>
-                    <th>화</th>
-                    <th>수</th>
-                    <th>목</th>
-                    <th>금</th>
-                </tr>
-            </thead>
-            <tbody id="timetableBody">
-                </tbody>
-        </table>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>교시</th>
+                        <th>월</th>
+                        <th>화</th>
+                        <th>수</th>
+                        <th>목</th>
+                        <th>금</th>
+                    </tr>
+                </thead>
+                <tbody id="timetableBody">
+                    </tbody>
+            </table>
+        </div>
 
         <h5>* 표시: 변경된 수업</h5>
     </div>
